@@ -9,11 +9,11 @@ import path from 'path';
 const io = new NodeIO().registerExtensions(ALL_EXTENSIONS);
 
 const files = [
-    { in: 'public/assets/watertiles/Meshy_AI_Level_1_Floating_Lotu_0315175149_texture.glb', out: 'public/assets/watertiles/watertile_lv1.glb' },
-    { in: 'public/assets/watertiles/Meshy_AI_Water_level_2_0315175111_texture.glb', out: 'public/assets/watertiles/watertile_lv2.glb' },
-    { in: 'public/assets/watertiles/Meshy_AI_Water_level_3_Lilypad_0315175140_texture.glb', out: 'public/assets/watertiles/watertile_lv3.glb' },
-    { in: 'public/assets/watertiles/Meshy_AI_Water_level_4_Verdant_0315175131_texture.glb', out: 'public/assets/watertiles/watertile_lv4.glb' },
-    { in: 'public/assets/watertiles/Meshy_AI_Water_level_5_Azure_O_0315175120_texture.glb', out: 'public/assets/watertiles/watertile_lv5.glb' }
+    { in: 'source_assets/watertiles/Meshy_AI_Level_1_Floating_Lotu_0315175149_texture.glb', out: 'public/assets/watertiles/watertile_lv1.glb' },
+    { in: 'source_assets/watertiles/Meshy_AI_Water_level_2_0315175111_texture.glb', out: 'public/assets/watertiles/watertile_lv2.glb' },
+    { in: 'source_assets/watertiles/Meshy_AI_Water_level_3_Lilypad_0315175140_texture.glb', out: 'public/assets/watertiles/watertile_lv3.glb' },
+    { in: 'source_assets/watertiles/Meshy_AI_Water_level_4_Verdant_0315175131_texture.glb', out: 'public/assets/watertiles/watertile_lv4.glb' },
+    { in: 'source_assets/watertiles/Meshy_AI_Water_level_5_Azure_O_0315175120_texture.glb', out: 'public/assets/watertiles/watertile_lv5.glb' }
 ];
 
 async function optimize() {
