@@ -14,15 +14,17 @@ interface TileDecorationProps {
     alignRotY: number;    // rotation around sphere normal to align with hex cell
 }
 
-const BASE = '/assets/kenney/';
-const SNOW_BASE = '/assets/snowtiles/';
-const SAND_BASE = '/assets/sandtiles/';
-const TOWN_BASE = '/assets/towntiles/';
-const FOREST_BASE = '/assets/foresttiles/';
-const ROCK_BASE = '/assets/rocktiles/';
-const WATER_BASE = '/assets/watertiles/';
-const MEADOW_BASE = '/assets/meadowtiles/';
-const OBSIDIAN_BASE = '/assets/obsidiantiles/';
+const BASE_URL = import.meta.env.BASE_URL;
+
+const BASE = `${BASE_URL}assets/kenney/`;
+const SNOW_BASE = `${BASE_URL}assets/snowtiles/`;
+const SAND_BASE = `${BASE_URL}assets/sandtiles/`;
+const TOWN_BASE = `${BASE_URL}assets/towntiles/`;
+const FOREST_BASE = `${BASE_URL}assets/foresttiles/`;
+const ROCK_BASE = `${BASE_URL}assets/rocktiles/`;
+const WATER_BASE = `${BASE_URL}assets/watertiles/`;
+const MEADOW_BASE = `${BASE_URL}assets/meadowtiles/`;
+const OBSIDIAN_BASE = `${BASE_URL}assets/obsidiantiles/`;
 
 // ── Asset mapping: kind × level → GLB filename ──────────────────────────────
 function getModelPath(kind: CubeKind, level: number, rare: boolean): string {

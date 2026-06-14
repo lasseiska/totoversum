@@ -23,7 +23,8 @@ class AudioManager {
             }
 
             // Preload background music
-            this.bgm = new Audio('/Totoversum backgroundmusic.mp3');
+            const BASE_URL = import.meta.env.BASE_URL;
+            this.bgm = new Audio(`${BASE_URL}Totoversum backgroundmusic.mp3`);
             this.bgm.loop = true;
             this.bgm.volume = this.bgmVolume;
         }
