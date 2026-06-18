@@ -34,6 +34,7 @@ function SynergyToast({ notification, onDone }: { notification: SynergyNotificat
 export function GameUI() {
     const { bag, score, gameOver, resetGame, grid, cells, synergyBonus, synergyNotifications, clearSynergyNotification, isMuted, isAudioInitialized, toggleMute, initializeAudio, bgmVolume, sfxVolume, setBgmVolume, setSfxVolume } = useGameStore();
     const [showSettings, setShowSettings] = useState(false);
+    const [mobileTab, setMobileTab] = useState<'none' | 'stats' | 'synergies' | 'guide'>('none');
     const settingsRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -243,10 +244,15 @@ export function GameUI() {
                     </div>
 
                     {/* Tile scoreboard */}
-                    {tileStats.length > 0 && (
-                        <div className="scoreboard-panel">
+                    {(tileStats.length > 0 || mobileTab === 'stats') && (
+                        <div className={`scoreboard-panel ${mobileTab === 'stats' ? 'mobile-show' : 'mobile-hide'}`}>
                             <div className="scoreboard-title">🌍 Planeetalla</div>
                             <div className="scoreboard-list">
+                                {tileStats.length === 0 && (
+                                    <div className="scoreboard-empty-placeholder">
+                                        Ei vielä biomilaattoja asetettuna.
+                                    </div>
+                                )}
                                 {tileStats.map(({ kind, level, rare, count }) => {
                                     const cfg = getCubeConfig(kind);
                                     const name = rare ? cfg.rareVariant.name : cfg.levels[level - 1].name;
@@ -266,7 +272,7 @@ export function GameUI() {
                                     );
                                 })}
                             </div>
-                            <div className="scoreboard-row">
+                            <div className="scoreboard-row" style={{ marginTop: tileStats.length === 0 ? '8px' : '4px' }}>
                                 <span className="sb-emoji">🖤</span>
                                 <div className="sb-level-badge" style={{ background: '#2d1b4e' }}>⛏</div>
                                 <span className="sb-name">Obsidiaani</span>
@@ -278,22 +284,28 @@ export function GameUI() {
 
                 <div className="right-column">
                     {/* Synergy info panel */}
-                    {synergySummary.length > 0 && (
-                        <div className="synergy-panel">
+                    {(synergySummary.length > 0 || mobileTab === 'synergies') && (
+                        <div className={`synergy-panel ${mobileTab === 'synergies' ? 'mobile-show' : 'mobile-hide'}`}>
                             <div className="synergy-title">⚡ Synergiat</div>
-                            <div className="synergy-list">
-                                {synergySummary.map((s) => (
-                                    <div key={s.name} className="synergy-row">
-                                        <span className="synergy-emoji">{s.emoji}</span>
-                                        <div className="synergy-info">
-                                            <span className="synergy-name">{s.name}</span>
-                                            <span className="synergy-desc">{s.description}</span>
+                            {synergySummary.length === 0 ? (
+                                <div className="synergy-empty-placeholder">
+                                    Ei aktiivisia synergioita vielä. Aseta samanlaisia tai yhteensopivia biomilaattoja vierekkäin saadaksesi bonuksia!
+                                </div>
+                            ) : (
+                                <div className="synergy-list">
+                                    {synergySummary.map((s) => (
+                                        <div key={s.name} className="synergy-row">
+                                            <span className="synergy-emoji">{s.emoji}</span>
+                                            <div className="synergy-info">
+                                                <span className="synergy-name">{s.name}</span>
+                                                <span className="synergy-desc">{s.description}</span>
+                                            </div>
+                                            <span className="synergy-count">×{s.count}</span>
+                                            <span className="synergy-bonus">+{s.totalBonus}</span>
                                         </div>
-                                        <span className="synergy-count">×{s.count}</span>
-                                        <span className="synergy-bonus">+{s.totalBonus}</span>
-                                    </div>
-                                ))}
-                            </div>
+                                    ))}
+                                </div>
+                            )}
                             <div className="synergy-total">
                                 <span className="synergy-total-label">Yhteensä</span>
                                 <span className="synergy-total-value">+{synergyBonus}</span>
@@ -302,7 +314,7 @@ export function GameUI() {
                     )}
 
                     {/* Synergy guide (always visible) */}
-                    <div className="synergy-guide-panel">
+                    <div className={`synergy-guide-panel ${mobileTab === 'guide' ? 'mobile-show' : 'mobile-hide'}`}>
                         <div className="synergy-guide-title">⚡ Biomisynergiat</div>
                         <div className="synergy-guide-hint">Vierekkäiset biomit → bonus!</div>
                         <div className="synergy-guide-list">
@@ -317,12 +329,34 @@ export function GameUI() {
                     </div>
 
                     {/* Legend */}
-                    <div className="legend-panel">
+                    <div className={`legend-panel ${mobileTab === 'guide' ? 'mobile-show' : 'mobile-hide'}`}>
                         <div className="legend-title">Tasot</div>
                         <div className="legend-hint">3+ vierekkäin → merge ✨</div>
                         <div className="legend-hint">4+ → harvinainen 🌟</div>
                     </div>
                 </div>
+            </div>
+
+            {/* Mobile Tab Bar */}
+            <div className="mobile-tab-bar">
+                <button 
+                    className={`tab-btn${mobileTab === 'stats' ? ' is-active' : ''}`}
+                    onClick={() => setMobileTab(mobileTab === 'stats' ? 'none' : 'stats')}
+                >
+                    📊 Tilastot
+                </button>
+                <button 
+                    className={`tab-btn${mobileTab === 'synergies' ? ' is-active' : ''}`}
+                    onClick={() => setMobileTab(mobileTab === 'synergies' ? 'none' : 'synergies')}
+                >
+                    ⚡ Synergiat
+                </button>
+                <button 
+                    className={`tab-btn${mobileTab === 'guide' ? ' is-active' : ''}`}
+                    onClick={() => setMobileTab(mobileTab === 'guide' ? 'none' : 'guide')}
+                >
+                    📖 Ohje
+                </button>
             </div>
         </div>
     );
